@@ -15,4 +15,14 @@ export class MessagesResolver {
   createMessage(@Args() args) {
     return this.prisma.mutation.createMessage(args);
   }
+
+  @Mutation()
+  updateMessage(@Args() args) {
+    return this.prisma.mutation.updateMessage(args);
+  }
+
+  @Mutation()
+  deleteMessage(@Args() args) {
+    return this.prisma.mutation.deleteMessage(args);
+  }
 }
