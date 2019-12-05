@@ -1,30 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
+
+const MESSAGES = gql`
+  {
+    messages {
+      id
+      description
+    }
+  }
+`;
 
 const Post: React.FC = () => {
-  const [posts, setPosts] = useState([]);
+  const { loading, error, data } = useQuery(MESSAGES);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result: any = await window.fetch("/api/posts");
-      const data = await result.json();
-      console.log(data);
-      setPosts(data.rows);
-    };
-
-    fetchData();
-
-    return function cleanup() {
-      console.log("no cleanup");
-    };
-  }, []);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
 
   return (
     <div>
       <ul>
-        {posts.map((post: any) => (
-          <li>
-            <h2>{post.title}</h2>
-            <p>{post.content}</p>
+        {data.messages.map((post: any) => (
+          <li key={post.id}>
+            <h2>{post.id}</h2>
+            <p>{post.description}</p>
           </li>
         ))}
       </ul>
