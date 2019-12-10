@@ -2,14 +2,19 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
 import ApolloClient from "apollo-boost";
+import { InMemoryCache } from "apollo-cache-inmemory";
+
 import "./index.css";
 import "antd/dist/antd.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 const client = new ApolloClient({
+  cache: new InMemoryCache(),
   uri: "/graphql"
 });
+
+client.cache.writeData({ data: { messages: [] } });
 
 ReactDOM.render(
   <ApolloProvider client={client}>
